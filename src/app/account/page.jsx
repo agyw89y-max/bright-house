@@ -28,50 +28,56 @@ export default function AccountPage() {
 const [selectedOrder, setSelectedOrder] = useState(null);
 const [notifications, setNotifications] = useState([]);
 
-const [user, setUser] = useState(() => {
-  const saved = localStorage.getItem("bh_user");
-  return saved ? JSON.parse(saved) : null;
-});
+
+const [user, setUser] = useState(null);
 
 
-  // تحميل بيانات المستخدم من Firebase
- useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        router.push("/login");
-        return;
+// تحميل بيانات المستخدم من Firebase
+useEffect(() => {
+  if (typeof window === "undefined") return; // ⛔ حماية ضد SSR
+
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+
+    try {
+      const snapshot = await get(ref(db, `users/${user.uid}`));
+      if (snapshot.exists()) {
+        setUserData(snapshot.val());
+      } else {
+        const newUser = { 
+          name: user.displayName || "", 
+          email: user.email, 
+          phone: "", 
+          orders: [], 
+          addresses: [] 
+        };
+        await set(ref(db, `users/${user.uid}`), newUser);
+        setUserData(newUser);
       }
+    } catch (err) {
+      console.error(err);
+      showToast(lang === "ar" ? "خطأ في تحميل البيانات" : "Error loading data");
+    } finally {
+      setLoading(false);
+    }
+  });
 
-      try {
-        const snapshot = await get(ref(db, `users/${user.uid}`));
-        if (snapshot.exists()) {
-          setUserData(snapshot.val());
-        } else {
-          const newUser = { 
-            name: user.displayName || "", 
-            email: user.email, 
-            phone: "", 
-            orders: [], 
-            addresses: [] 
-          };
-          await set(ref(db, `users/${user.uid}`), newUser);
-          setUserData(newUser);
-        }
-      } catch (err) {
-        console.error(err);
-        showToast(lang === "ar" ? "خطأ في تحميل البيانات" : "Error loading data");
-      } finally {
-        setLoading(false);
-      }
-    });
-
+  // 🧠 استخدم localStorage فقط بعد التأكد أنه في المتصفح
+  if (typeof window !== "undefined") {
     const savedLang = localStorage.getItem("bh_lang");
     if (savedLang) setLang(savedLang);
+  }
 
-    return unsubscribe;
-  }, []);
+  return unsubscribe;
+}, []);
 
+// متابعة حالة تسجيل الدخول
 useEffect(() => {
+  if (typeof window === "undefined") return; // ⛔ حماية ضد SSR
+
   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
     if (currentUser) {
       setUser(currentUser);
@@ -82,14 +88,14 @@ useEffect(() => {
       router.push("/login");
     }
   });
+
   return unsubscribe;
 }, []);
 
-
-
+// تحميل الإشعارات للمستخدم الحالي
 useEffect(() => {
-  if (!auth.currentUser) return;
-  const userId = auth.currentUser.uid;
+  if (!user) return; // نتاكد ان المستخدم اتحمل
+  const userId = user.uid;
   const notificationsRef = ref(db, `notifications/${userId}`);
 
   const unsubscribe = onValue(notificationsRef, (snapshot) => {
@@ -105,9 +111,7 @@ useEffect(() => {
   });
 
   return () => unsubscribe();
-}, [auth.currentUser]);
-
-
+}, [user]);
 
 
 

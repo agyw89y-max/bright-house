@@ -58,10 +58,17 @@ export default function CartPage() {
     (sum, it) => sum + (Number(it.price) || 0) * (Number(it.quantity) || 0),
     0
   );
-const [user, setUser] = useState(() => {
-  const savedUser = localStorage.getItem("bh_user");
-  return savedUser ? JSON.parse(savedUser) : null;
-});
+const [user, setUser] = useState(null);
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const savedUser = localStorage.getItem("bh_user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }
+}, []);
+
 useEffect(() => {
   const syncUser = (e) => {
     if (e.key === "bh_user") {
