@@ -35,7 +35,7 @@ const [user, setUser] = useState(() => {
 
 
   // تحميل بيانات المستخدم من Firebase
-  useEffect(() => {
+ useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         router.push("/login");
