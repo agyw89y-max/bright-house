@@ -369,7 +369,7 @@ useEffect(() => {
           {lang === "ar" ? "تريد تصميم مخصص؟" : "Need something special?"}
         </span>
         <a
-          href="https://wa.me/20111656958"
+          href="https://wa.me/+201116565958"
           target="_blank"
           rel="noopener noreferrer"
           className="underline font-medium hover:text-cyan-300 transition"
@@ -492,7 +492,7 @@ useEffect(() => {
     {/* Right Button */}
     <div className="flex-shrink-0 relative">
       <a
-        href="https://wa.me/20111656958"
+        href="https://wa.me/+201116565958"
         target="_blank"
         rel="noreferrer"
         className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 text-white font-extrabold shadow-[0_15px_40px_rgba(37,211,102,0.25),0_0_60px_rgba(0,255,200,0.15)] hover:scale-110 hover:shadow-[0_20px_60px_rgba(37,211,102,0.35),0_0_80px_rgba(0,255,200,0.2)] transition-transform duration-300 animate-pulse"
@@ -804,7 +804,7 @@ useEffect(() => {
           <div className="flex gap-3 justify-center">
             <a
               className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-green-500 font-bold shadow-lg hover:scale-105 transition"
-              href="https://wa.me/20111656958"
+              href="https://wa.me/+201116565958"
               target="_blank"
               rel="noreferrer"
             >
@@ -827,7 +827,7 @@ useEffect(() => {
       {/* Floating WhatsApp */}
       <a
         className="fixed bottom-6 right-6 fab z-50"
-        href="https://wa.me/20111656958"
+        href="https://wa.me/+201116565958"
         target="_blank"
         rel="noreferrer"
         aria-label="WhatsApp"

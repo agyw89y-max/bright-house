@@ -25,7 +25,7 @@ export default function Footer({ lang = "en" }) {
       contact: "Contact",
       follow: "Follow Us",
       email: "support@brighthouse.com",
-      phone: "+20 123 456 7890",
+      phone: "+20 111 656 5958",
       rights: "All Rights Reserved 💡",
     },
     ar: {
@@ -37,7 +37,7 @@ export default function Footer({ lang = "en" }) {
       contact: "تواصل معنا",
       follow: "تابعنا",
       email: "الدعم@brighthouse.com",
-      phone: "+20 123 456 7890",
+      phone: "+20 111 656 5958",
       rights: "جميع الحقوق محفوظة 💡",
     },
   }[lang];
@@ -84,6 +84,7 @@ export default function Footer({ lang = "en" }) {
         animate={{ x: ["-100%", "100%"] }}
         transition={{ duration: 6, repeat: Infinity, repeatType: "loop" }}
       />
+
 
       {/* المحتوى */}
       <div className="relative max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 z-10">
@@ -134,22 +135,28 @@ export default function Footer({ lang = "en" }) {
           </div>
         </div>
 
+
         {/* سوشيال ميديا */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">{t.follow}</h3>
           <div className="flex gap-4">
             {[
-              { icon: <Facebook className="text-blue-500" />, link: "#" },
-              { icon: <Instagram className="text-pink-500" />, link: "#" },
-              { icon: <Twitter className="text-sky-400" />, link: "#" },
-              { icon: <Youtube className="text-red-500" />, link: "#" },
+         {
+  icon: <Facebook className="text-blue-500" />,
+  link: "https://www.facebook.com/share.php?u=https://www.facebook.com/17NrkXzMvC"
+}
+
+          
             ].map((s, i) => (
-              <motion.a
-                key={i}
-                href={s.link}
-                whileHover={{ scale: 1.3, rotate: 8 }}
-                className="group w-10 h-10 rounded-full bg-white/5 backdrop-blur-md flex items-center justify-center shadow-inner hover:bg-white/10 transition relative overflow-hidden"
-              >
+           <motion.a
+  key={i}
+  href={s.link}
+  target="_blank"
+  rel="noopener noreferrer"
+  whileHover={{ scale: 1.3, rotate: 8 }}
+  className="group w-10 h-10 rounded-full bg-white/5 backdrop-blur-md flex items-center justify-center shadow-inner hover:bg-white/10 transition relative overflow-hidden"
+>
+
                 {/* نبض */}
                 <motion.div
                   className="absolute inset-0 bg-cyan-400/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500"

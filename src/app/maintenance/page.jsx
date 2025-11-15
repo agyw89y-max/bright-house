@@ -319,7 +319,7 @@ const t = translations[lang];
     </a>
 
     <a
-      href="https://wa.me/20111656958"
+      href="https://wa.me/201116565958"
       target="_blank"
       rel="noreferrer"
       className="relative px-8 py-3 rounded-full font-bold text-white bg-gradient-to-r from-green-500 to-emerald-600 shadow-[0_0_25px_rgba(0,255,100,0.3)] hover:shadow-[0_0_50px_rgba(0,255,100,0.6)] hover:scale-110 transition-all duration-300 flex items-center gap-2"
@@ -776,7 +776,7 @@ const t = translations[lang];
 
     {/* WhatsApp Button - Circular & Pulsing */}
     <motion.a
-      href="https://wa.me/20111656958"
+      href="https://wa.me/201116565958"
       target="_blank"
       rel="noreferrer"
       whileHover={{ scale: 1.15, textShadow: "0 0 15px #00ff77", boxShadow: "0 0 50px #00ff77" }}
