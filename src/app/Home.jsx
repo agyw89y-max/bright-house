@@ -811,31 +811,34 @@ useEffect(() => {
            
               <FaWhatsapp /> {t.whatsapp}
             </a>
-            <a
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-blue-600 font-bold shadow-lg hover:scale-105 transition"
-              href="https://facebook.com"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaFacebook /> {t.facebook}
-            </a>
+     <a
+  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-blue-600 text-white font-bold shadow-lg hover:bg-blue-700 hover:scale-110 transition-all duration-300"
+  href="https://facebook.com"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <FaFacebook className="w-5 h-5" />
+  {t.facebook}
+</a>
+
           </div>
         </motion.div>
       </section>
 
 
       {/* Floating WhatsApp */}
-      <a
-        className="fixed bottom-6 right-6 fab z-50"
-        href="https://wa.me/+201116565958"
-        target="_blank"
-        rel="noreferrer"
-        aria-label="WhatsApp"
-      >
-        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white shadow-2xl hover:scale-110 transition-transform">
-          <FaWhatsapp size={22} />
-        </div>
-      </a>
+    <a
+  className="fixed bottom-6 right-6 fab z-50"
+  href="https://wa.me/201116565958"
+  target="_blank"
+  rel="noreferrer"
+  aria-label="WhatsApp"
+>
+  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center text-white shadow-2xl hover:scale-110 transition-transform">
+    <FaWhatsapp size={22} />
+  </div>
+</a>
+
 
 
 
