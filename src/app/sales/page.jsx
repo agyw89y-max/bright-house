@@ -380,12 +380,14 @@ export default function SalesPage() {
             <div key={c.id} id={`cat-${c.id}`} className="space-y-4">
               <div className="flex items-center justify-between">
                 <h4 className="text-2xl font-bold">{c.name?.[lang]}</h4>
-                <button
-                  onClick={() => document.getElementById(`cat-${c.id}`)?.scrollIntoView({ behavior: "smooth" })}
-                  className="text-sm text-gray-400 hover:text-white transition"
-                >
-                  {lang === "ar" ? "عرض الكل" : "View all"}
-                </button>
+     <button
+  onClick={() => router.push(`/sales/${c.id}`)}
+  className="text-sm px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-gray-200 hover:text-white transition-all duration-300 backdrop-blur-md border border-white/10 flex items-center gap-1"
+>
+  {lang === "ar" ? "عرض الكل" : "View All"}
+  <span className="text-lg">→</span>
+</button>
+
               </div>
 
               <div className="flex gap-4 overflow-x-auto pb-3">

@@ -11,6 +11,11 @@ import {
 import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged, signOut, updatePassword } from "firebase/auth";
 import { ref, get,onValue,set } from "firebase/database";
+import OrdersUltra from "../components/OrdersUltra";
+
+// أو المسار اللي حفظت فيه الملف
+
+// أو المسار اللي حفظت فيه الملف
 
 export default function AccountPage() {
   const router = useRouter();
@@ -329,178 +334,11 @@ useEffect(() => {
 
 
 
-
 {activeTab === "orders" && (
-  <motion.div
-    key="orders"
-    variants={tabVariants}
-    initial="hidden"
-    animate="visible"
-    exit="exit"
-    className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/10 shadow-lg"
-  >
-    <div className="flex items-center justify-between mb-6">
-      <h2 className="text-2xl font-bold flex items-center gap-3">
-        <FaBoxOpen className="text-blue-400" />
-        {lang === "ar" ? "طلباتي السابقة" : "My Orders"}
-      </h2>
-      <div className="text-sm text-gray-300">
-        {userData.orders ? Object.keys(userData.orders).length : 0}{" "}
-        {lang === "ar" ? "طلب" : "orders"}
-      </div>
-    </div>
-
-    {/* حالة عرض الطلبات */}
-    {userData.orders && Object.keys(userData.orders).length > 0 ? (
-      <div className="space-y-4">
-
-           {Object.entries(userData.orders)
-          .reverse()
-          .map(([key, order]) => (
-            <motion.div
-              key={key}
-              whileHover={{ scale: 1.01 }}
-              onClick={() => setSelectedOrder(order)} // يفتح المودال
-              className="cursor-pointer bg-[#071233]/60 hover:bg-[#0b1a4f]/70 transition-all p-4 rounded-xl border border-white/8 flex flex-col md:flex-row md:justify-between gap-4"
-            >
-              <div className="flex flex-col gap-2">
-                <div className="text-sm text-gray-300">
-                  <span className="font-semibold">
-                    {lang === "ar" ? "رقم الطلب:" : "Order ID:"}
-                  </span>{" "}
-                  <span className="text-cyan-300">
-                    {order.id || key.slice(-6).toUpperCase()}
-                  </span>
-                </div>
-                <div className="text-sm text-gray-400">
-                  {lang === "ar" ? "التاريخ:" : "Date:"}{" "}
-                  {new Date(order.date).toLocaleDateString("ar-EG")}
-                </div>
-                <div className="text-sm text-gray-400">
-                  {lang === "ar" ? "العناصر:" : "Items:"}{" "}
-                  {order.cart?.length || order.items?.length || 0}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="text-right">
-                  <div className="text-sm text-gray-300">
-                    {lang === "ar" ? "الإجمالي" : "Total"}
-                  </div>
-                  <div className="font-bold text-cyan-300">
-                    {order.total?.toLocaleString?.() ?? order.total} جنيه
-                  </div>
-                </div>
-
-                <div
-                  className="px-3 py-1 rounded-full font-semibold text-sm"
-                  style={{
-                    background:
-                      order.status === "مكتمل" || order.status === "completed"
-                        ? "rgba(16,185,129,0.12)"
-                        : order.status === "تم الشحن" || order.status === "shipped"
-                        ? "rgba(59,130,246,0.08)"
-                        : "rgba(250,204,21,0.08)",
-                    color:
-                      order.status === "مكتمل" || order.status === "completed"
-                        ? "#10B981"
-                        : order.status === "تم الشحن" || order.status === "shipped"
-                        ? "#3B82F6"
-                        : "#FACC15",
-                  }}
-                >
-                  {order.status === "completed" || order.status === "مكتمل"
-                    ? lang === "ar"
-                      ? "مكتمل"
-                      : "Completed"
-                    : order.status === "shipped" || order.status === "تم الشحن"
-                    ? lang === "ar"
-                      ? "تم الشحن"
-                      : "Shipped"
-                    : lang === "ar"
-                    ? "قيد المعالجة"
-                    : "Processing"}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-      </div>
-    ) : (
-      <div className="text-center py-12 text-gray-400">
-        {lang === "ar"
-          ? "لم تقم بأي طلبات بعد."
-          : "You have no orders yet."}
-      </div>
-    )}
-
-    {/* مودال التفاصيل */}
-    {selectedOrder && (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
-        onClick={() => setSelectedOrder(null)}
-      >
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          onClick={(e) => e.stopPropagation()}
-          className="bg-[#0b143d] rounded-2xl shadow-2xl p-6 w-[90%] max-w-md border border-white/10"
-        >
-          <h3 className="text-xl font-bold text-cyan-400 mb-4">
-            {lang === "ar" ? "تفاصيل الطلب" : "Order Details"}
-          </h3>
-
-          <div className="space-y-2 text-gray-300 text-sm">
-            <p>
-              <span className="font-semibold">{lang === "ar" ? "رقم الطلب:" : "Order ID:"}</span>{" "}
-              {selectedOrder.id}
-            </p>
-            <p>
-              <span className="font-semibold">{lang === "ar" ? "التاريخ:" : "Date:"}</span>{" "}
-              {new Date(selectedOrder.date).toLocaleDateString("ar-EG")}
-            </p>
-            <p>
-              <span className="font-semibold">{lang === "ar" ? "الحالة:" : "Status:"}</span>{" "}
-              {selectedOrder.status}
-            </p>
-            <p>
-              <span className="font-semibold">{lang === "ar" ? "الإجمالي:" : "Total:"}</span>{" "}
-              {selectedOrder.total} جنيه
-            </p>
-            {selectedOrder.address && (
-              <p>
-                <span className="font-semibold">{lang === "ar" ? "العنوان:" : "Address:"}</span>{" "}
-                {selectedOrder.address}
-              </p>
-            )}
-          </div>
-
-          <div className="mt-4 border-t border-white/10 pt-3">
-            <p className="font-semibold text-gray-200 mb-2">
-              {lang === "ar" ? "العناصر المطلوبة:" : "Ordered Items:"}
-            </p>
-            <ul className="list-disc list-inside text-gray-400 space-y-1 text-sm max-h-40 overflow-y-auto">
-              {(selectedOrder.cart || selectedOrder.items)?.map((item, idx) => (
-                <li key={idx}>
-                  {item.name} × {item.quantity} — {item.price} جنيه
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <button
-            onClick={() => setSelectedOrder(null)}
-            className="mt-6 w-full bg-cyan-500 hover:bg-cyan-600 transition-all text-white font-semibold py-2 rounded-xl"
-          >
-            {lang === "ar" ? "إغلاق" : "Close"}
-          </button>
-        </motion.div>
-      </motion.div>
-    )}
-  </motion.div>
+  <div>
+    <OrdersUltra userId={user?.uid || (auth.currentUser && auth.currentUser.uid)} />
+  </div>
 )}
-
 
 
 
@@ -558,7 +396,12 @@ useEffect(() => {
                         <div key={a.id || i} className="bg-[#071233]/60 p-4 rounded-xl border border-white/8 flex flex-col gap-3">
                           <div className="flex justify-between items-start">
                             <div>
-                              <div className="font-semibold text-cyan-300">{a.label || (lang === "ar" ? "عنوان" : "Address")}</div>
+<div className="font-semibold text-cyan-300">
+  {typeof a.label === "object"
+    ? (lang === "ar" ? a.label.ar : a.label.en)
+    : a.label || (lang === "ar" ? "عنوان" : "Address")}
+</div>
+
                               <div className="text-sm text-gray-300">{a.street}</div>
                               <div className="text-xs text-gray-400">{a.city} - {a.state}</div>
                               {a.notes && <div className="text-xs text-gray-400 mt-1">Note: {a.notes}</div>}

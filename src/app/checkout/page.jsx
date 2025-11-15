@@ -19,6 +19,7 @@ import { ref, get, push, set } from "firebase/database";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
+import { FaCheckCircle } from "react-icons/fa";
 
 /**
  * 🌟 Checkout Page (Ultimate Pro)
@@ -41,6 +42,7 @@ export default function CheckoutPage() {
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const [savingAddress, setSavingAddress] = useState(false);
+const [showModal, setShowModal] = useState(false);
 
   // Load initial data
   useEffect(() => {
@@ -163,33 +165,165 @@ export default function CheckoutPage() {
       status: "processing",
     };
 
-    try {
-      const ordersRef = ref(db, "orders");
-      const pushed = await push(ordersRef, orderData);
+try {
+  const ordersRef = ref(db, "orders");
+  const pushed = await push(ordersRef, orderData);
 
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        await push(ref(db, `users/${currentUser.uid}/orders`), {
-          ...orderData,
-          id: pushed.key,
-        });
-      }
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    await push(ref(db, `users/${currentUser.uid}/orders`), {
+      ...orderData,
+      id: pushed.key,
+    });
+  }
 
-      localStorage.removeItem("bh_cart");
-      setCart([]);
-      setOrderId(pushed.key);
-      toast.success(lang === "ar" ? "تم إرسال طلبك" : "Order placed");
-      setTimeout(() => router.push("/sales"), 2200);
-    } catch (err) {
-      console.error(err);
-      toast.error(lang === "ar" ? "حدث خطأ، حاول مرة اخرى" : "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
+  localStorage.removeItem("bh_cart");
+  setCart([]);
+  setOrderId(pushed.key);
+
+  // ✅ أهم خطـوة (تشغيل الرسالة)
+  setShowModal(true);
+
+  toast.success(lang === "ar" ? "تم إرسال طلبك" : "Order placed");
+
+} catch (err) {
+  console.error(err);
+  toast.error(lang === "ar" ? "حدث خطأ، حاول مرة اخرى" : "Something went wrong");
+} finally {
+  setLoading(false);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-[#041029] to-[#000814] text-gray-100 font-[Cairo] pb-20">
+   
+   <main className="min-h-screen bg-gradient-to-br from-[#041029] to-[#000814] text-gray-100 font-[Cairo] pb-20">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* 🌟 Ultra Pro Order Success Modal */}
+{showModal && (
+  <motion.div 
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50"
+  >
+    <motion.div
+      initial={{ scale: 0.7, opacity: 0, y: 40 }}
+      animate={{ scale: 1, opacity: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 140, damping: 12 }}
+      className="relative bg-gradient-to-br from-[#0e213a] to-[#071524] p-10 rounded-3xl shadow-[0_0_40px_rgba(0,255,255,0.15)] border border-cyan-400/20 text-center w-[92%] max-w-md overflow-hidden"
+    >
+
+      {/* ✨ خلفية مؤثرات */}
+      <div className="absolute inset-0 opacity-10 bg-[url('/grid.svg')] bg-cover bg-center pointer-events-none"></div>
+
+      {/* ✔ Icon */}
+      <motion.div 
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.15, type: "spring" }}
+        className="w-24 h-24 mx-auto mb-6 rounded-full bg-cyan-500/25 flex items-center justify-center border border-cyan-400/30 shadow-[0_0_30px_rgba(0,255,255,0.3)]"
+      >
+        <FaCheckCircle className="text-cyan-300 text-6xl drop-shadow-[0_0_10px_rgb(0,255,255)]" />
+      </motion.div>
+
+      {/* العنوان */}
+      <motion.h2 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="text-3xl font-bold text-cyan-200 mb-3"
+      >
+        {lang === "ar" ? "تم تسجيل طلبك!" : "Order Registered!"}
+      </motion.h2>
+
+      {/* الرسالة */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.35 }}
+        className="text-gray-300 text-lg leading-relaxed mb-6"
+      >
+        {lang === "ar"
+          ? "جارٍ تجهيز طلبك… وسيتم التواصل معك لتأكيد طلبك قريبًا. شكرًا لثقتك بنا!"
+          : "Your order is being processed… We will contact you soon to confirm it."}
+      </motion.p>
+
+      {/* ID الطلب – أنيميشان رايق */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.45 }}
+        className="text-gray-400 mb-6 text-base"
+      >
+        <span className="opacity-80">Order ID:</span>
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+          className="text-cyan-300 font-semibold ml-1"
+        >
+          {orderId}
+        </motion.span>
+      </motion.div>
+
+      {/* زر الإغلاق */}
+      <motion.button
+        whileHover={{ scale: 1.08, boxShadow: "0 0 15px rgba(0,255,255,0.4)" }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => {
+          setShowModal(false);
+          router.push("/sales");
+        }}
+        className="px-7 py-3 bg-cyan-500/20 text-cyan-200 border border-cyan-400/40 rounded-2xl backdrop-blur-sm 
+                   transition-all font-semibold tracking-wide hover:bg-cyan-500/30"
+      >
+        {lang === "ar" ? "إغلاق والانتقال للمبيعات" : "Close & Go to Sales"}
+      </motion.button>
+
+    </motion.div>
+  </motion.div>
+)}
+
+
       <Toaster position="top-center" />
       <Navbar
         lang={lang}

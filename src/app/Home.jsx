@@ -86,7 +86,6 @@ const [user, setUser] = useState("loading");
 
 
 
-
 const salesDetails = {
   ar: [
     "ضمان 3 سنوات على جميع منتجات الماجنتيك.",
@@ -347,6 +346,18 @@ useEffect(() => {
         </a>
       </motion.div>
 
+
+
+
+
+
+
+
+
+
+
+
+
       {/* CUSTOM ORDER LINK */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -372,8 +383,6 @@ useEffect(() => {
 
 
 
-
-     
 
 
 
