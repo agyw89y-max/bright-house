@@ -25,7 +25,7 @@ export default function Footer({ lang = "en" }) {
       contact: "Contact",
       follow: "Follow Us",
       email: "support@brighthouse.com",
-      phone: "+20 111 656 5958",
+      phone: "+20 100 351 5676",
       rights: "All Rights Reserved 💡",
     },
     ar: {
@@ -37,7 +37,7 @@ export default function Footer({ lang = "en" }) {
       contact: "تواصل معنا",
       follow: "تابعنا",
       email: "الدعم@brighthouse.com",
-      phone: "+20 111 656 5958",
+      phone: "+20 100 351 5676",
       rights: "جميع الحقوق محفوظة 💡",
     },
   }[lang];
